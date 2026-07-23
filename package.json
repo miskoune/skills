@@ -1,0 +1,23 @@
+{
+  "name": "@miskoune/skills",
+  "version": "0.1.0",
+  "description": "Miskoune's agent skills — portable markdown skills for any AI coding agent, installable via npx.",
+  "bin": {
+    "skills": "bin/skills.js"
+  },
+  "files": [
+    "bin",
+    "skills"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miskoune/skills.git"
+  },
+  "license": "MIT"
+}
