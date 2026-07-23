@@ -1,6 +1,10 @@
 # @miskoune/skills
 
-Portable agent skills. Each skill is a self-contained folder: a `SKILL.md` with YAML frontmatter plus optional `references/`, `scripts/`, and `assets/`. The format is plain markdown, readable by any AI coding agent that supports skill folders (Claude Code, opencode, custom agents, ...). Nothing here depends on a specific provider.
+A collection of portable skills for AI coding agents, installable anywhere with a single npx command.
+
+Each skill is a self-contained folder of plain markdown: a `SKILL.md` describing when and how to apply it, plus optional `references/` for deeper material.
+
+Any agent that reads skill folders can use them, whether that is Claude Code, opencode, or your own custom setup. No provider lock-in.
 
 ## Install
 
@@ -20,8 +24,8 @@ npx @miskoune/skills add all --dir ./agent/skills    # anywhere
 
 ## Skills
 
-| Skill | What it does |
-| --- | --- |
+| Skill                                              | What it does                                                                                                                          |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | [code-principles](skills/code-principles/SKILL.md) | Actionable principles for writing, refactoring, and debugging code: naming, functions, error handling, contracts, tests, concurrency. |
 
 ## License
