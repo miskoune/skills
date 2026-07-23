@@ -11,7 +11,11 @@ Deeper guidance and before/after examples for the rules summarized in SKILL.md. 
 - [Objects vs data structures](#objects-vs-data-structures)
 - [Boundaries](#boundaries)
 - [System construction and wiring](#system-construction-and-wiring)
+- [Contracts and assertions](#contracts-and-assertions)
+- [Resource balancing](#resource-balancing)
+- [DRY beyond code](#dry-beyond-code)
 - [Test-driven development](#test-driven-development)
+- [Debugging session shape](#debugging-session-shape)
 - [Refactoring workflow](#refactoring-workflow)
 
 ## Naming in practice
@@ -124,7 +128,7 @@ Pick the representation by the axis of change you expect:
 - **Data structures + free functions**: adding a new *operation* is easy (one new function); adding a new *type* is hard (every function changes). Right when the set of types is stable and operations keep growing.
 - **Objects + polymorphism**: adding a new *type* is easy (one new conformance); adding a new *operation* is hard (every type changes). Right when operations are stable and types keep growing.
 
-Hiding data means abstraction, not accessors. A getter/setter pair per field hides nothing — it's the field with ceremony. Expose operations on the *essence*:
+Hiding data means abstraction. Reflexive getter/setter pairs around every field hide nothing — but a considered accessor is a legitimate abstraction point: it lets you later swap a stored value for a computed or cached one without touching callers (uniform access). The test is whether the accessor exposes the *essence* or the representation:
 
 ```swift
 // Representation-exposing
@@ -176,6 +180,50 @@ final class SessionStore {
 - Grow the architecture incrementally: implement today's requirements; defer each decision to the last responsible moment (the point of maximum information); choose the simplest design that works; adopt frameworks only for demonstrated value.
 - Keep cross-cutting concerns (persistence, logging, security, caching) in their own modular layer instead of smeared through every domain object.
 
+## Contracts and assertions
+
+Think of every routine as a contract: what the caller must guarantee (preconditions), what the routine promises back (postconditions), what the type keeps true between calls (invariants). Even without language support, stating them sharpens the design:
+
+```swift
+/// Precondition: `sets` is non-empty and all belong to `session`.
+/// Postcondition: returned volume > 0; `session` is unchanged.
+func totalVolume(of sets: [WorkoutSet]) -> Double {
+    precondition(!sets.isEmpty, "totalVolume requires at least one set")
+    ...
+}
+```
+
+- A violated precondition is a **bug in the caller**, never a user-input problem — validate user input with normal control flow, assert programmer guarantees.
+- Assert whatever "can never happen" — and leave assertions on in production; real input is more hostile than any test suite. Assertion conditions must be side-effect-free, or checking changes behavior.
+- Crash early on impossible states: an `assertionFailure`/fatal in a `default:` case that "can't be reached" stops a crippled program from limping on and corrupting data.
+- Liskov via contracts: a subtype may accept more (weaker preconditions) or promise more (stronger postconditions) — never the reverse.
+
+## Resource balancing
+
+The code that acquires a resource releases it, visibly in the same scope. Scope-based release keeps the happy path and the error path from diverging:
+
+```swift
+func exportSessions() throws {
+    let handle = try FileHandle(forWritingTo: exportURL)
+    defer { try? handle.close() }          // runs on every exit path
+    try writeHeader(to: handle)
+    try writeSessions(to: handle)
+}
+```
+
+- Releasing in both the success path *and* the catch block is a DRY violation — `defer`/RAII/`finally` exists so the release is written once.
+- Deallocate in reverse order of acquisition; when several parts of the code acquire the same set of resources, acquire them in the same order everywhere — the classic deadlock preventive.
+- For long-lived structures where strict acquire/release doesn't fit, pick one explicit ownership policy (owner frees substructures, or refuses to free while non-empty) and apply it consistently.
+
+## DRY beyond code
+
+DRY is about knowledge, not lines: every fact should have one authoritative home.
+
+- **Derived data**: `var isEmpty: Bool { count == 0 }`, never a stored `isEmpty` maintained alongside `count`. A performance cache is a deliberate, documented exception hidden inside the owning type.
+- **Comments**: prose restating code is a second copy of the knowledge that will drift; the code keeps the *what*, comments keep the *why*.
+- **Multiple representations** (API client/server models, code mirroring a schema): generate the copies from one source as a build step rather than hand-maintaining them.
+- **Configuration**: business policies, thresholds, and tuning values are knowledge that changes on a different schedule than code — keep them in data/config the code reads, not in compiled constants scattered through logic.
+
 ## Test-driven development
 
 The three laws, forming a seconds-long cycle:
@@ -188,6 +236,15 @@ Test code holds the same *cleanliness* bar as production code — but not the sa
 Grow a domain-specific testing language: when tests drown in setup detail, extract helpers that read at the level of intent (`makeCompletedSession()`, `assertLevelUp(after:)`). It evolves from refactoring tests, not from up-front design. Structure each test Given-When-Then, one concept per test, minimal asserts. Good tests double as documentation: a newcomer should learn a class's API by reading its tests.
 
 Testability is a design pressure, not just verification: code that's hard to test is telling you a class is too big, too coupled, or constructing its own dependencies.
+
+## Debugging session shape
+
+1. Reproduce first: reduce the failure to one minimal command/test before touching code. If you can't trigger it on demand, you can't know it's fixed.
+2. Suspect in order: your most recent change → your code → configuration/environment → dependencies → platform ("select isn't broken" — the OS and compiler are almost never the culprit).
+3. Localize by halving: confirm the symptom at two distant points, probe the midpoint, repeat. For timing-dependent bugs, add consistently formatted trace lines and post-process them instead of stepping.
+4. When stuck, explain the code line by line out loud (rubber-ducking) — the skipped assumption is usually where the bug lives. Never wave a routine through as "known-good": prove it with this data at these boundaries.
+5. Fix the root cause, not the surfacing symptom.
+6. Close the loop: commit a regression test that fails without the fix, move validation closer to where the bad data enters, and grep for the same pattern elsewhere.
 
 ## Refactoring workflow
 
