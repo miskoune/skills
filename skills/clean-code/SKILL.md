@@ -1,6 +1,6 @@
 ---
 name: clean-code
-description: Actionable distillation of Clean Code (Robert C. Martin) principles for writing, refactoring, and reviewing code. Use when (1) writing new functions, classes, or modules, (2) refactoring or cleaning up existing code, (3) reviewing code for quality, readability, or maintainability, (4) the user asks to apply "clean code" principles, or (5) naming things, structuring functions, or deciding how to handle errors, comments, tests, or system wiring.
+description: Actionable distillation of Clean Code (Robert C. Martin) principles for writing and refactoring code. Use when (1) writing new functions, classes, or modules, (2) refactoring or cleaning up existing code, (3) naming things, structuring functions, or deciding how to handle errors, comments, tests, or system wiring, or (4) the user asks to apply "clean code" principles.
 ---
 
 # Clean Code
@@ -105,8 +105,6 @@ Distilled, actionable principles for producing readable, maintainable code. Appl
 
 **When writing new code:** apply the rules above as you go — draft it working, then refine under tests before moving on.
 
-**When refactoring:** work under tests. Make small behavior-preserving steps; run tests between steps; expect some steps to be reversed later — refactoring is trial and error. Read [references/principles.md](references/principles.md) for before/after examples.
-
-**When reviewing code for quality:** read [references/code-smells.md](references/code-smells.md) and check the code against that catalog. Report each smell with its location, why it hurts, and a concrete fix — ordered by impact. Critiquing good code is normal professional practice, not hostility; no module is immune from improvement.
+**When refactoring:** work under tests. Make small behavior-preserving steps; run tests between steps; expect some steps to be reversed later — refactoring is trial and error.
 
 For expanded guidance and examples on any topic above, read [references/principles.md](references/principles.md).
