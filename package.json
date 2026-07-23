@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Miskoune's agent skills — portable markdown skills for any AI coding agent, installable via npx.",
   "bin": {
-    "skills": "bin/skills.js"
+    "skills": "dist/skills.js"
   },
   "files": [
-    "bin",
+    "dist",
     "skills"
   ],
   "engines": {
@@ -16,6 +16,8 @@
     "access": "public"
   },
   "scripts": {
+    "build": "tsc",
+    "prepack": "npm run build",
     "prepare": "husky",
     "release": "semantic-release"
   },
@@ -29,8 +31,10 @@
     "@commitlint/config-conventional": "^21.2.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
+    "@types/node": "^26.1.1",
     "conventional-changelog-conventionalcommits": "^10.2.1",
     "husky": "^9.1.7",
-    "semantic-release": "^25.0.8"
+    "semantic-release": "^25.0.8",
+    "typescript": "^7.0.2"
   }
 }

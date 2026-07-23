@@ -6,18 +6,24 @@
  * assets/). The format is plain markdown with YAML frontmatter, usable by any
  * agent that reads skill folders (Claude Code, opencode, custom agents, ...).
  */
-const fs = require("node:fs");
-const path = require("node:path");
-const os = require("node:os");
+import * as fs from "node:fs";
+import * as path from "node:path";
+import * as os from "node:os";
 
 const SOURCE = path.join(__dirname, "..", "skills");
 
 const TARGETS = {
   claude: path.join(os.homedir(), ".claude", "skills"),
   project: path.join(process.cwd(), ".claude", "skills"),
-};
+} as const;
 
-function availableSkills() {
+interface Args {
+  names: string[];
+  target: string;
+  force: boolean;
+}
+
+function availableSkills(): string[] {
   return fs
     .readdirSync(SOURCE, { withFileTypes: true })
     .filter((e) => e.isDirectory() && fs.existsSync(path.join(SOURCE, e.name, "SKILL.md")))
@@ -25,18 +31,22 @@ function availableSkills() {
     .sort();
 }
 
-function description(name) {
+function description(name: string): string {
   const text = fs.readFileSync(path.join(SOURCE, name, "SKILL.md"), "utf8");
   const match = text.match(/^description:\s*(.+)$/m);
-  return match ? match[1].trim() : "";
+  return match?.[1]?.trim() ?? "";
 }
 
-function parseArgs(argv) {
-  const args = { names: [], target: TARGETS.claude, force: false };
+function parseArgs(argv: string[]): Args {
+  const args: Args = { names: [], target: TARGETS.claude, force: false };
   for (let i = 0; i < argv.length; i++) {
-    const a = argv[i];
+    const a = argv[i]!;
     if (a === "--project") args.target = TARGETS.project;
-    else if (a === "--dir") args.target = path.resolve(argv[++i] ?? fail("--dir needs a path"));
+    else if (a === "--dir") {
+      const dir = argv[++i];
+      if (dir === undefined || dir.startsWith("-")) fail("--dir needs a path");
+      args.target = path.resolve(dir);
+    }
     else if (a === "--force" || a === "-f") args.force = true;
     else if (a.startsWith("-")) fail(`unknown flag: ${a}`);
     else args.names.push(a);
@@ -44,12 +54,12 @@ function parseArgs(argv) {
   return args;
 }
 
-function fail(message) {
+function fail(message: string): never {
   console.error(`error: ${message}`);
   process.exit(1);
 }
 
-function resolveNames(names) {
+function resolveNames(names: string[]): string[] {
   const all = availableSkills();
   if (names.length === 1 && names[0] === "all") return all;
   for (const n of names) if (!all.includes(n)) fail(`unknown skill "${n}" — run: skills list`);
@@ -57,7 +67,7 @@ function resolveNames(names) {
   return names;
 }
 
-function add(argv) {
+function add(argv: string[]): void {
   const { names, target, force } = parseArgs(argv);
   for (const name of resolveNames(names)) {
     const dest = path.join(target, name);
@@ -71,7 +81,7 @@ function add(argv) {
   }
 }
 
-function remove(argv) {
+function remove(argv: string[]): void {
   const { names, target } = parseArgs(argv);
   for (const name of resolveNames(names)) {
     const dest = path.join(target, name);
@@ -84,14 +94,14 @@ function remove(argv) {
   }
 }
 
-function list() {
+function list(): void {
   for (const name of availableSkills()) {
     const desc = description(name);
     console.log(`${name}\n  ${desc.length > 120 ? desc.slice(0, 117) + "..." : desc}`);
   }
 }
 
-function help() {
+function help(): void {
   console.log(`usage: skills <command> [skill...] [flags]
 
 commands:
@@ -108,9 +118,9 @@ flags:
 default target: ~/.claude/skills
 
 examples:
-  npx github:miskoune/skills list
-  npx github:miskoune/skills add clean-code
-  npx github:miskoune/skills add all --dir ./my-agent/skills`);
+  npx @miskoune/skills list
+  npx @miskoune/skills add clean-code
+  npx @miskoune/skills add all --dir ./my-agent/skills`);
 }
 
 const [command, ...rest] = process.argv.slice(2);
