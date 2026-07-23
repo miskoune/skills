@@ -4,7 +4,7 @@ A collection of portable skills for AI coding agents, installable anywhere with 
 
 Each skill is a self-contained folder of plain markdown: a `SKILL.md` describing when and how to apply it, plus optional `references/` for deeper material.
 
-Any agent that reads skill folders can use them, whether that is Claude Code, opencode, or your own custom setup. No provider lock-in.
+Any agent that reads skill folders can use them, whether that is Claude Code, Codex, OpenCode or your own custom setup.
 
 ## Install
 
