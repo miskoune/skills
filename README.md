@@ -6,13 +6,13 @@ Portable agent skills. Each skill is a self-contained folder: a `SKILL.md` with 
 
 ```sh
 npx @miskoune/skills list
-npx @miskoune/skills add clean-code
+npx @miskoune/skills add code-principles
 ```
 
 By default skills install to `~/.claude/skills`. Other targets:
 
 ```sh
-npx @miskoune/skills add clean-code --project        # ./.claude/skills
+npx @miskoune/skills add code-principles --project   # ./.claude/skills
 npx @miskoune/skills add all --dir ./agent/skills    # anywhere
 ```
 
@@ -22,7 +22,7 @@ npx @miskoune/skills add all --dir ./agent/skills    # anywhere
 
 | Skill | What it does |
 | --- | --- |
-| [clean-code](skills/clean-code/SKILL.md) | Actionable distillation of *Clean Code* (Robert C. Martin) for writing, refactoring, and reviewing code, cross-checked against all 17 chapters. |
+| [code-principles](skills/code-principles/SKILL.md) | Actionable principles for writing, refactoring, and debugging code: naming, functions, error handling, contracts, tests, concurrency. |
 
 ## License
 
