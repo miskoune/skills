@@ -24,9 +24,9 @@ npx @miskoune/skills add all --dir ./agent/skills    # anywhere
 
 ## Skills
 
-| Skill                                              | What it does                                                                                                                          |
-| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| [code-principles](skills/code-principles/SKILL.md) | Actionable principles for writing, refactoring, and debugging code: naming, functions, error handling, contracts, tests, concurrency. |
+| Skill                                              | What it does                                                                   |
+| -------------------------------------------------- | ------------------------------------------------------------------------------ |
+| [code-principles](skills/code-principles/SKILL.md) | Actionable clean code principles for writing, refactoring, and debugging code. |
 
 ## License
 
