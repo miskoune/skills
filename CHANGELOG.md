@@ -1,3 +1,6 @@
+## [1.1.9](https://github.com/miskoune/skills/compare/v1.1.8...v1.1.9) (2026-07-24)
+* **release:** update release notes generator configuration ([a585a82](https://github.com/miskoune/skills/commit/a585a82154b80f3f0272a4f5d3388f555a050786))
+
 ## [1.1.8](https://github.com/miskoune/skills/compare/v1.1.7...v1.1.8) (2026-07-23)
 
 ## [1.1.7](https://github.com/miskoune/skills/compare/v1.1.6...v1.1.7) (2026-07-23)
