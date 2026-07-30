@@ -31,10 +31,18 @@ function availableSkills(): string[] {
     .sort();
 }
 
-function description(name: string): string {
+function frontmatter(name: string, field: string): string {
   const text = fs.readFileSync(path.join(SOURCE, name, "SKILL.md"), "utf8");
-  const match = text.match(/^description:\s*(.+)$/m);
+  const match = text.match(new RegExp(`^${field}:\\s*(.+)$`, "m"));
   return match?.[1]?.trim() ?? "";
+}
+
+function listLine(name: string): string {
+  const summary = frontmatter(name, "summary");
+  if (summary) return summary;
+  const desc = frontmatter(name, "description");
+  const sentence = desc.match(/^.+?[.!?](?=\s|$)/)?.[0] ?? desc;
+  return sentence.length > 120 ? sentence.slice(0, 117) + "..." : sentence;
 }
 
 function parseArgs(argv: string[]): Args {
@@ -96,8 +104,7 @@ function remove(argv: string[]): void {
 
 function list(): void {
   for (const name of availableSkills()) {
-    const desc = description(name);
-    console.log(`${name}\n  ${desc.length > 120 ? desc.slice(0, 117) + "..." : desc}`);
+    console.log(`${name}\n  ${listLine(name)}`);
   }
 }
 

@@ -24,16 +24,17 @@ The CLI auto-discovers skills: any directory under `skills/` containing a `SKILL
 ## Creating a new skill
 
 1. Create `skills/<name>/SKILL.md`. The name is lowercase kebab-case and must match the folder name.
-2. Frontmatter is exactly two fields:
+2. Frontmatter is two required fields plus an optional `summary`:
 
    ```yaml
    ---
    name: my-skill
+   summary: One short sentence shown by `skills list`.
    description: What it does and when to use it, written in third person with concrete triggers ("Use when (1) ..., (2) ...").
    ---
    ```
 
-   The description is the only thing an agent sees before deciding to load the skill, so make it carry both *what* and *when*. Keep it on one line (the CLI extracts it with a single-line regex).
+   The description is the only thing an agent sees before deciding to load the skill, so make it carry both *what* and *when*. The summary is only for humans browsing `skills list`; without it, the list falls back to the description's first sentence. Keep each field on one line (the CLI extracts them with single-line regexes).
 3. Write the body as instructions to an agent, not documentation for humans: imperative voice, actionable defaults, no filler. Keep `SKILL.md` focused (aim well under ~500 lines); move detailed material into `references/*.md` and link to it from the body so it loads only when needed.
 4. Stay LLM-agnostic: no references to a specific model, vendor CLI, provider-only tool names, or provider-specific file paths inside the skill content.
 5. Add a row to the "Skills" table in `README.md` (name linked to its `SKILL.md`, one-line summary).

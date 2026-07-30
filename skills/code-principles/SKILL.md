@@ -1,5 +1,6 @@
 ---
 name: code-principles
+summary: Core principles for writing clean, maintainable code.
 description: Actionable principles for writing and refactoring code, distilled from Clean Code and The Pragmatic Programmer. Use when (1) writing new functions, classes, or modules, (2) refactoring or cleaning up existing code, (3) debugging a defect, (4) naming things, structuring functions, or deciding how to handle errors, comments, tests, or system wiring, or (5) the user asks to apply "clean code" or pragmatic principles.
 ---
 
