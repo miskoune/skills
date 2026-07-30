@@ -28,6 +28,7 @@ npx @miskoune/skills add all --dir ./agent/skills    # anywhere
 
 | Skill                                              | What it does                                                                   |
 | -------------------------------------------------- | ------------------------------------------------------------------------------ |
+| [clean-architecture](skills/clean-architecture/SKILL.md) | Architectural principles for boundaries, dependencies, and system structure. |
 | [code-principles](skills/code-principles/SKILL.md) | Actionable clean code principles for writing, refactoring, and debugging code. |
 
 ## License
