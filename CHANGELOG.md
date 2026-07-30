@@ -1,3 +1,6 @@
+## [1.2.0](https://github.com/miskoune/skills/compare/v1.1.9...v1.2.0) (2026-07-30)
+* add optional summary frontmatter for concise list output ([d9b5139](https://github.com/miskoune/skills/commit/d9b51393a114515ffd7009f03c472a1f523c6b30))
+
 ## [1.1.9](https://github.com/miskoune/skills/compare/v1.1.8...v1.1.9) (2026-07-24)
 * **release:** update release notes generator configuration ([a585a82](https://github.com/miskoune/skills/commit/a585a82154b80f3f0272a4f5d3388f555a050786))
 
