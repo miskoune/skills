@@ -1,3 +1,7 @@
+## [1.3.0](https://github.com/miskoune/skills/compare/v1.2.0...v1.3.0) (2026-07-30)
+* add clean-architecture skill ([1dbff2c](https://github.com/miskoune/skills/commit/1dbff2cfd6bf6585d83d3c25f6777e66b6eda030))
+* add npm version badge [skip ci] ([216aff0](https://github.com/miskoune/skills/commit/216aff0bb52dc29fe51991aa2db943899ecba7e8))
+
 ## [1.2.0](https://github.com/miskoune/skills/compare/v1.1.9...v1.2.0) (2026-07-30)
 * add optional summary frontmatter for concise list output ([d9b5139](https://github.com/miskoune/skills/commit/d9b51393a114515ffd7009f03c472a1f523c6b30))
 

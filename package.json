@@ -1,6 +1,6 @@
 {
   "name": "@miskoune/skills",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "miskoune agent skills: portable markdown skills for any AI coding agent, installable via npx.",
   "bin": {
     "skills": "dist/skills.js"
