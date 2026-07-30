@@ -1,5 +1,7 @@
 # @miskoune/skills
 
+[![npm](https://img.shields.io/npm/v/@miskoune/skills)](https://www.npmjs.com/package/@miskoune/skills)
+
 A collection of portable skills for AI coding agents, installable anywhere with a single npx command.
 
 Each skill is a self-contained folder of plain markdown: a `SKILL.md` describing when and how to apply it, plus optional `references/` for deeper material.
