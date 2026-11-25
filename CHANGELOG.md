@@ -1,3 +1,6 @@
+## [1.3.1](https://github.com/miskoune/skills/compare/v1.3.0...v1.3.1) (2026-11-25)
+* require node 26 and release with node 26 ([dafda16](https://github.com/miskoune/skills/commit/dafda16c1745003234300804425f1ddd378f09c4))
+
 ## [1.3.0](https://github.com/miskoune/skills/compare/v1.2.0...v1.3.0) (2026-07-30)
 * add clean-architecture skill ([1dbff2c](https://github.com/miskoune/skills/commit/1dbff2cfd6bf6585d83d3c25f6777e66b6eda030))
 * add npm version badge [skip ci] ([216aff0](https://github.com/miskoune/skills/commit/216aff0bb52dc29fe51991aa2db943899ecba7e8))
